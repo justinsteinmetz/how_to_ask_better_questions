@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Ask Better Questions — Ask with purpose, precision, and curiosity</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07090f;
+  --surface: rgba(255,255,255,0.04);
+  --surface-hover: rgba(255,255,255,0.08);
+  --border: rgba(255,255,255,0.08);
+  --border-bright: rgba(255,255,255,0.18);
+  --text: #e8eaf0;
+  --text-dim: #8892a4;
+  --text-dimmer: #4a5568;
+  --accent1: #6ec8b4; /* teal — Curious Asker */
+  --accent2: #6ea8c8; /* steel — Exploring Asker */
+  --accent3: #a08ec8; /* lavender — Probing Asker */
+  --accent4: #c8a06e; /* amber — Analytical Asker */
+  --accent5: #c86e8e; /* rose — Intellectual Leader */
+  --glow1: rgba(110,200,180,0.15);
+  --glow2: rgba(110,168,200,0.15);
+  --glow3: rgba(160,142,200,0.15);
+  --glow4: rgba(200,160,110,0.15);
+  --glow5: rgba(200,110,142,0.15);
+  --sc: var(--accent1);
+  --sg: var(--glow1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+
+#canvas-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.55; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1.1rem 2rem;
+  background: rgba(7,9,15,0.88); backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.nav-brand { font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.15em; color: var(--accent1); text-transform: uppercase; }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; color: var(--text-dim); text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
+.nav-links a:hover { color: var(--text); }
+.nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.25rem; cursor: pointer; }
+
+/* ── STAGE SWITCHER ── */
+.stage-switcher {
+  position: fixed; top: 56px; left: 0; right: 0; z-index: 90;
+  background: rgba(7,9,15,0.92); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex; overflow-x: auto; scrollbar-width: none; padding: 0 1.5rem;
+}
+.stage-switcher::-webkit-scrollbar { display: none; }
+.stage-btn {
+  flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 0.6rem 1.4rem; gap: 0.15rem;
+  border: none; background: transparent; cursor: pointer;
+  border-bottom: 2px solid transparent; color: var(--text-dimmer);
+  transition: all 0.22s; min-width: 120px;
+}
+.stage-btn:hover { color: var(--text-dim); }
+.stage-btn .sn { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; }
+.stage-btn .st { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 600; line-height: 1.1; font-style: italic; }
+.stage-btn .sg { font-family: 'DM Mono', monospace; font-size: 0.54rem; letter-spacing: 0.08em; color: var(--text-dimmer); }
+.stage-btn[data-s="1"].active { color: var(--accent1); border-bottom-color: var(--accent1); }
+.stage-btn[data-s="2"].active { color: var(--accent2); border-bottom-color: var(--accent2); }
+.stage-btn[data-s="3"].active { color: var(--accent3); border-bottom-color: var(--accent3); }
+.stage-btn[data-s="4"].active { color: var(--accent4); border-bottom-color: var(--accent4); }
+.stage-btn[data-s="5"].active { color: var(--accent5); border-bottom-color: var(--accent5); }
+
+/* ── LAYOUT ── */
+.container { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+section { padding: 5.5rem 0; position: relative; z-index: 1; }
+
+/* ── HERO ── */
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 9rem 0 4rem; }
+.hero-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent1); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards; }
+.hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 7vw, 5.5rem); font-weight: 700; line-height: 1.08; letter-spacing: -0.02em; margin-bottom: 1.25rem; max-width: 18ch; opacity: 0; animation: fadeUp 0.9s ease 0.35s forwards; }
+.hero h1 em { font-style: italic; color: var(--accent1); }
+.hero-subtitle { font-size: 1.05rem; color: var(--text-dim); max-width: 50ch; margin-bottom: 2rem; font-weight: 300; opacity: 0; animation: fadeUp 0.9s ease 0.5s forwards; }
+.hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.9s ease 0.65s forwards; margin-bottom: 2.5rem; }
+.principle-box { opacity: 0; animation: fadeUp 0.9s ease 0.8s forwards; background: rgba(255,255,255,0.03); border: 1px solid var(--accent1); border-radius: 6px; padding: 1.5rem 1.75rem; max-width: 560px; transition: border-color 0.4s; }
+.principle-label { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent1); margin-bottom: 0.65rem; transition: color 0.4s; }
+.principle-quote { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-style: italic; line-height: 1.65; color: var(--text); }
+
+/* ── BUTTONS ── */
+.btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.75rem; border-radius: 3px; font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.1em; text-decoration: none; cursor: pointer; border: none; transition: all 0.2s; }
+.btn-primary { background: var(--accent1); color: var(--bg); font-weight: 500; transition: background 0.4s; }
+.btn-primary:hover { filter: brightness(1.12); transform: translateY(-1px); }
+.btn-ghost { background: transparent; color: var(--text-dim); border: 1px solid var(--border-bright); }
+.btn-ghost:hover { color: var(--text); border-color: var(--accent2); }
+
+/* ── SECTION HEADERS ── */
+.section-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent1); margin-bottom: 0.75rem; }
+.section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; line-height: 1.15; margin-bottom: 0.75rem; }
+.section-intro { color: var(--text-dim); max-width: 58ch; font-size: 0.95rem; font-weight: 300; margin-bottom: 3rem; }
+
+/* ── ASCENT SPINE ── */
+.ascent-wrapper { display: grid; grid-template-columns: 60px 1fr; gap: 0 2rem; max-width: 900px; }
+.ascent-spine { display: flex; flex-direction: column; align-items: center; }
+.spine-line { width: 1px; flex: 1; min-height: 2rem; }
+.spine-line-1 { background: linear-gradient(to bottom, transparent, var(--accent1)); }
+.spine-line-2 { background: linear-gradient(to bottom, var(--accent1), var(--accent2)); }
+.spine-line-3 { background: linear-gradient(to bottom, var(--accent2), var(--accent3)); }
+.spine-line-4 { background: linear-gradient(to bottom, var(--accent3), var(--accent4)); }
+.spine-line-5 { background: linear-gradient(to bottom, var(--accent4), var(--accent5)); }
+.spine-line-end { background: linear-gradient(to bottom, var(--accent5), transparent); }
+.spine-node { width: 14px; height: 14px; border-radius: 50%; border: 2px solid; background: var(--bg); flex-shrink: 0; transition: all 0.3s; cursor: pointer; }
+.s1c { --sc: var(--accent1); --sg: var(--glow1); }
+.s2c { --sc: var(--accent2); --sg: var(--glow2); }
+.s3c { --sc: var(--accent3); --sg: var(--glow3); }
+.s4c { --sc: var(--accent4); --sg: var(--glow4); }
+.s5c { --sc: var(--accent5); --sg: var(--glow5); }
+.spine-node { border-color: var(--sc); }
+.spine-node.lit { background: var(--sc); box-shadow: 0 0 12px var(--sc); }
+
+/* ── STAGE CARDS ── */
+.stage-item { margin-bottom: 3rem; }
+.stage-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 2rem 2.25rem; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden; }
+.stage-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--sc); opacity: 0; transition: opacity 0.3s; }
+.stage-card:hover { background: var(--surface-hover); border-color: var(--border-bright); transform: translateX(4px); }
+.stage-card.active { border-color: var(--border-bright); transform: translateX(4px); box-shadow: 0 0 30px var(--sg); }
+.stage-card.active::before { opacity: 1; }
+.stage-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; }
+.stage-num { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.15em; color: var(--text-dimmer); text-transform: uppercase; }
+.stage-badge { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; padding: 0.2rem 0.65rem; border-radius: 2px; text-transform: uppercase; background: var(--sg); color: var(--sc); border: 1px solid var(--sc); }
+.stage-title-el { font-family: 'Playfair Display', serif; font-size: 1.45rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--sc); }
+.stage-meta { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--text-dimmer); margin-bottom: 0.75rem; letter-spacing: 0.05em; }
+.stage-desc { color: var(--text-dim); font-size: 0.88rem; line-height: 1.6; margin-bottom: 0.85rem; }
+.stage-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.skill-tag { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; padding: 0.18rem 0.55rem; border-radius: 2px; border: 1px solid var(--border); color: var(--text-dimmer); text-transform: uppercase; }
+.stage-expand { display: none; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+.stage-card.active .stage-expand { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 1rem; }
+.expand-item { background: rgba(255,255,255,0.03); border-radius: 4px; padding: 1rem; border: 1px solid var(--border); }
+.expand-item h4 { font-family: 'DM Mono', monospace; font-size: 0.63rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dimmer); margin-bottom: 0.45rem; }
+.expand-item p { font-size: 0.84rem; color: var(--text-dim); line-height: 1.5; }
+
+/* ── QUESTION TYPES ── */
+.qtypes-section { background: rgba(255,255,255,0.012); }
+.qtype-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; }
+.qtype-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.75rem; transition: all 0.2s; position: relative; overflow: hidden; }
+.qtype-card:hover { background: var(--surface-hover); border-color: var(--border-bright); }
+.qtype-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--qc); opacity: 0.7; }
+.qtype-num { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--qc); margin-bottom: 0.5rem; }
+.qtype-name { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; }
+.qtype-desc { font-size: 0.84rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 1rem; }
+.qtype-purpose { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dimmer); margin-bottom: 0.4rem; }
+.qtype-examples { display: flex; flex-direction: column; gap: 0.35rem; }
+.qtype-example { font-size: 0.82rem; color: var(--text-dim); font-style: italic; padding: 0.35rem 0.65rem; background: rgba(255,255,255,0.025); border-radius: 3px; border-left: 2px solid var(--qc); }
+.qtype-stage { margin-top: 1rem; padding-top: 0.85rem; border-top: 1px solid var(--border); font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dimmer); }
+
+/* ── SKILLS ── */
+.skills-section { }
+.skills-tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 2.5rem; }
+.tab-btn { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.45rem 1rem; border-radius: 3px; border: 1px solid var(--border); background: transparent; color: var(--text-dim); cursor: pointer; transition: all 0.2s; }
+.tab-btn:hover { border-color: var(--accent1); color: var(--text); }
+.tab-btn.active { background: var(--accent1); color: var(--bg); border-color: var(--accent1); font-weight: 500; transition: background 0.4s, border-color 0.4s; }
+.skill-panel { display: none; }
+.skill-panel.active { display: block; }
+.skill-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.25rem; }
+.skill-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; transition: all 0.2s; position: relative; overflow: hidden; }
+.skill-card:hover { border-color: var(--border-bright); background: var(--surface-hover); }
+.skill-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--sc-card, var(--accent1)); opacity: 0.5; }
+.skill-card svg { width: 22px; height: 22px; margin-bottom: 0.7rem; display: block; opacity: 0.6; color: var(--sc-card, var(--accent1)); }
+.skill-card-stage { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.3rem; }
+.skill-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 0.45rem; font-weight: 600; }
+.skill-card p { font-size: 0.84rem; color: var(--text-dim); line-height: 1.6; }
+.skill-progression { display: flex; gap: 0.25rem; margin-top: 0.75rem; }
+.prog-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); transition: background 0.3s; }
+.prog-dot.on { background: var(--sc-card, var(--accent1)); }
+
+/* ── QUESTION BUILDER ── */
+.builder-section { background: rgba(255,255,255,0.012); }
+.builder-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.builder-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.75rem; }
+.builder-label { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent1); margin-bottom: 0.75rem; }
+.builder-options { display: flex; flex-direction: column; gap: 0.4rem; }
+.builder-option { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.65rem 0.85rem; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; transition: all 0.2s; }
+.builder-option:hover { border-color: var(--border-bright); background: var(--surface-hover); }
+.builder-option.selected { border-color: var(--accent1); background: rgba(110,200,180,0.06); }
+.builder-option.selected .bo-dot { background: var(--accent1); }
+.bo-dot { width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--border-bright); flex-shrink: 0; margin-top: 4px; transition: all 0.2s; }
+.bo-label { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 600; margin-bottom: 0.1rem; }
+.bo-desc { font-size: 0.78rem; color: var(--text-dim); line-height: 1.4; }
+.builder-output { grid-column: 1 / -1; }
+.builder-result { background: rgba(110,200,180,0.04); border: 1px solid var(--accent1); border-radius: 6px; padding: 1.5rem 1.75rem; min-height: 120px; transition: all 0.3s; }
+.builder-result-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent1); margin-bottom: 0.75rem; }
+.builder-result-text { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-style: italic; line-height: 1.65; color: var(--text); margin-bottom: 0.85rem; }
+.builder-result-note { font-size: 0.8rem; color: var(--text-dim); line-height: 1.55; }
+
+/* ── CHECKLISTS ── */
+.checklist-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+.checklist-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.75rem; }
+.checklist-card h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 0.25rem; font-weight: 600; }
+.checklist-subtitle { font-family: 'DM Mono', monospace; font-size: 0.63rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dimmer); margin-bottom: 1.25rem; }
+.checklist-item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.5rem 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+.checklist-item:last-of-type { border-bottom: none; }
+.check-box { width: 16px; height: 16px; border: 1px solid var(--border-bright); border-radius: 2px; flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-size: 0.65rem; color: transparent; }
+.checklist-item:hover .check-box { border-color: var(--accent1); }
+.checklist-item.checked .check-box { background: var(--accent1); border-color: var(--accent1); color: var(--bg); }
+.checklist-item.checked .check-text { color: var(--text-dimmer); text-decoration: line-through; }
+.check-text { font-size: 0.87rem; color: var(--text-dim); line-height: 1.5; }
+.checklist-progress { margin-top: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+.progress-bar { flex: 1; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--accent1); border-radius: 2px; transition: width 0.4s ease; width: 0%; }
+.progress-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--text-dimmer); white-space: nowrap; }
+
+/* ── RUBRIC ── */
+.rubric-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.rubric-table th { font-family: 'DM Mono', monospace; font-size: 0.63rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dimmer); text-align: left; padding: 0.75rem 1rem; border-bottom: 1px solid var(--border-bright); background: rgba(255,255,255,0.02); }
+.rubric-table td { padding: 0.85rem 1rem; border-bottom: 1px solid var(--border); color: var(--text-dim); vertical-align: top; line-height: 1.5; }
+.rubric-table tr:hover td { background: rgba(255,255,255,0.02); }
+.rubric-table td:first-child { font-family: 'Playfair Display', serif; font-size: 0.95rem; color: var(--text); font-weight: 600; white-space: nowrap; }
+.rubric-select { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.rubric-btn { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.85rem; border-radius: 2px; border: 1px solid var(--border); background: transparent; color: var(--text-dim); cursor: pointer; transition: all 0.2s; }
+.rubric-btn.active { background: var(--accent2); color: var(--bg); border-color: var(--accent2); }
+.rubric-overflow { overflow-x: auto; }
+
+/* ── PHRASES ── */
+.phrases-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.25rem; }
+.phrase-group { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; }
+.phrase-group h3 { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent1); margin-bottom: 1rem; }
+.phrase-item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.45rem 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: all 0.2s; }
+.phrase-item:last-child { border-bottom: none; }
+.phrase-text { font-size: 0.87rem; color: var(--text-dim); font-style: italic; line-height: 1.5; flex: 1; }
+.phrase-copy { font-size: 0.65rem; opacity: 0; color: var(--accent1); transition: opacity 0.2s; flex-shrink: 0; font-family: 'DM Mono', monospace; letter-spacing: 0.05em; }
+.phrase-item:hover .phrase-copy { opacity: 1; }
+.phrase-item:hover .phrase-text { color: var(--text); }
+.phrase-item.copied .phrase-copy { color: var(--accent3); opacity: 1; }
+
+/* ── ACTIVITIES + TIMER ── */
+.timer-layout { display: grid; grid-template-columns: auto 1fr; gap: 2.5rem; align-items: start; }
+.timer-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.75rem; display: flex; flex-direction: column; align-items: center; gap: 1rem; width: 230px; }
+.arc-svg { transform: rotate(-90deg); }
+.arc-bg { fill: none; stroke: var(--border); stroke-width: 3; }
+.arc-prog { fill: none; stroke: var(--accent1); stroke-width: 3; stroke-linecap: round; transition: stroke-dashoffset 1s linear; }
+.timer-display { font-family: 'DM Mono', monospace; font-size: 2.4rem; letter-spacing: 0.06em; color: var(--accent1); line-height: 1; }
+.timer-label-el { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dimmer); }
+.timer-presets { display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center; }
+.t-preset { font-family: 'DM Mono', monospace; font-size: 0.63rem; padding: 0.3rem 0.65rem; border: 1px solid var(--border); border-radius: 2px; background: transparent; color: var(--text-dimmer); cursor: pointer; letter-spacing: 0.06em; text-transform: uppercase; transition: all 0.2s; }
+.t-preset:hover { border-color: var(--border-bright); color: var(--text-dim); }
+.t-preset.sel { background: var(--accent1); border-color: var(--accent1); color: var(--bg); }
+.timer-btns { display: flex; gap: 0.5rem; }
+.t-btn { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.5rem 1.1rem; border-radius: 3px; border: none; cursor: pointer; transition: all 0.2s; }
+.t-start { background: var(--accent1); color: var(--bg); }
+.t-start:hover { filter: brightness(1.12); }
+.t-reset { background: transparent; border: 1px solid var(--border); color: var(--text-dimmer); }
+.t-reset:hover { border-color: var(--border-bright); color: var(--text-dim); }
+.activities-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.25rem; }
+.activity-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; transition: all 0.25s; cursor: pointer; }
+.activity-card:hover { background: var(--surface-hover); border-color: var(--border-bright); transform: translateY(-2px); }
+.activity-type { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent2); margin-bottom: 0.35rem; }
+.activity-card h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 600; margin-bottom: 0.45rem; }
+.activity-card p { font-size: 0.84rem; color: var(--text-dim); line-height: 1.55; margin-bottom: 0.85rem; }
+.activity-meta { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.activity-tag { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.08em; padding: 0.15rem 0.5rem; border-radius: 2px; border: 1px solid var(--border); color: var(--text-dimmer); text-transform: uppercase; }
+
+/* ── MODAL ── */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(7,9,15,0.92); z-index: 200; align-items: center; justify-content: center; padding: 2rem; backdrop-filter: blur(6px); }
+.modal-overlay.open { display: flex; }
+.modal { background: #0f1320; border: 1px solid var(--border-bright); border-radius: 8px; max-width: 580px; width: 100%; max-height: 85vh; overflow-y: auto; padding: 2.25rem; position: relative; animation: slideUp 0.28s ease; }
+.modal-close { position: absolute; top: 1.1rem; right: 1.1rem; background: none; border: 1px solid var(--border); color: var(--text-dim); width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+.modal-close:hover { border-color: var(--accent5); color: var(--accent5); }
+.modal-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.63rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent2); margin-bottom: 0.4rem; }
+.modal h2 { font-family: 'Playfair Display', serif; font-size: 1.55rem; margin-bottom: 1.25rem; }
+.modal-body { color: var(--text-dim); font-size: 0.88rem; line-height: 1.7; }
+.modal-body p { margin-bottom: 0.8rem; }
+.modal-body p:last-child { margin: 0; }
+.modal-body ol, .modal-body ul { margin: 0.5rem 0 0.8rem 1.15rem; display: flex; flex-direction: column; gap: 0.35rem; }
+.modal-body strong { color: var(--text); font-weight: 500; }
+
+/* ── TOAST ── */
+.toast { position: fixed; bottom: 1.75rem; right: 1.75rem; z-index: 300; background: var(--accent3); color: var(--bg); font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.08em; padding: 0.5rem 1rem; border-radius: 3px; opacity: 0; transform: translateY(6px); transition: all 0.22s; pointer-events: none; }
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* ── FOOTER ── */
+footer { border-top: 1px solid var(--border); padding: 2.5rem 0; text-align: center; position: relative; z-index: 1; }
+footer p { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; color: var(--text-dimmer); }
+.footer-brand { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--text-dim); margin-bottom: 0.4rem; font-style: italic; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.reveal { opacity: 0; transform: translateY(22px); transition: all 0.65s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.rule { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: flex; }
+  .nav-links.open { display: flex; position: fixed; top: 56px; left: 0; right: 0; flex-direction: column; gap: 0; background: rgba(7,9,15,0.97); border-bottom: 1px solid var(--border); padding: 1rem 0; }
+  .nav-links.open a { padding: 0.75rem 2rem; display: block; }
+  .timer-layout { grid-template-columns: 1fr; }
+  .timer-panel { width: 100%; }
+  .ascent-wrapper { grid-template-columns: 32px 1fr; gap: 0 1rem; }
+  .hero { padding-top: 10rem; }
+  .builder-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 580px) {
+  .skill-card-grid, .checklist-grid, .phrases-grid, .activities-grid, .qtype-grid { grid-template-columns: 1fr; }
+}
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<canvas id="canvas-bg"></canvas>
+
+<nav>
+  <div class="nav-brand">Ask Better Questions</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#framework">Framework</a></li>
+    <li><a href="#types">Question types</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#builder">Builder</a></li>
+    <li><a href="#checklist">Checklist</a></li>
+    <li><a href="#phrases">Phrases</a></li>
+    <li><a href="#practice">Practice</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+</nav>
+
+<div class="stage-switcher">
+  <button class="stage-btn active" data-s="1" onclick="setStage(1)"><span class="sn">Stage 1</span><span class="st">Curious</span><span class="sg">Grades 1–4</span></button>
+  <button class="stage-btn" data-s="2" onclick="setStage(2)"><span class="sn">Stage 2</span><span class="st">Exploring</span><span class="sg">Grades 5–7</span></button>
+  <button class="stage-btn" data-s="3" onclick="setStage(3)"><span class="sn">Stage 3</span><span class="st">Probing</span><span class="sg">Grades 8–9</span></button>
+  <button class="stage-btn" data-s="4" onclick="setStage(4)"><span class="sn">Stage 4</span><span class="st">Analytical</span><span class="sg">Grades 10–12</span></button>
+  <button class="stage-btn" data-s="5" onclick="setStage(5)"><span class="sn">Stage 5</span><span class="st">Leading</span><span class="sg">Graduation+</span></button>
+</div>
+
+<main>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-eyebrow" id="heroEyebrow">Stage 1 · Curious Asker · Grades 1–4</div>
+    <h1>How to Ask <em>Better Questions</em></h1>
+    <p class="hero-subtitle" id="heroSub">A good question opens something. It moves a conversation, an argument, or an idea forward in a way that no statement can.</p>
+    <div class="hero-cta">
+      <a href="#framework" class="btn btn-primary">Explore the framework →</a>
+      <a href="#builder" class="btn btn-ghost">Question builder</a>
+    </div>
+    <div class="principle-box">
+      <div class="principle-label">The governing idea</div>
+      <div class="principle-quote" id="principleQuote">Ask when you don't understand. Ask when you want to know more. Asking is not a sign of weakness — it is a sign that you are paying attention.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ── FRAMEWORK ── -->
+<section id="framework">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">The Framework</div>
+      <h2 class="section-title">Five stages of questioning</h2>
+      <p class="section-intro" id="frameworkIntro">Questioning is a skill that develops across a lifetime. At every stage, the same underlying habits — curiosity, precision, timing — deepen and become more powerful.</p>
+    </div>
+    <div class="ascent-wrapper reveal">
+      <div class="ascent-spine">
+        <div class="spine-line spine-line-1" style="height:2rem"></div>
+        <div class="spine-node s1c" id="sn0" onclick="toggleCard(0)"></div>
+        <div class="spine-line spine-line-2"></div>
+        <div class="spine-node s2c" id="sn1" onclick="toggleCard(1)"></div>
+        <div class="spine-line spine-line-3"></div>
+        <div class="spine-node s3c" id="sn2" onclick="toggleCard(2)"></div>
+        <div class="spine-line spine-line-4"></div>
+        <div class="spine-node s4c" id="sn3" onclick="toggleCard(3)"></div>
+        <div class="spine-line spine-line-5"></div>
+        <div class="spine-node s5c" id="sn4" onclick="toggleCard(4)"></div>
+        <div class="spine-line spine-line-end" style="height:2rem"></div>
+      </div>
+      <div id="stageCardList"></div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ── QUESTION TYPES ── -->
+<section id="types" class="qtypes-section">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Question Types</div>
+      <h2 class="section-title">Six kinds of question</h2>
+      <p class="section-intro">Every question has a purpose. Knowing which type you are asking — and why — is what separates a powerful question from a reflexive one.</p>
+    </div>
+    <div class="qtype-grid reveal" id="qtypeGrid"></div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Core Skills</div>
+      <h2 class="section-title">Eight disciplines</h2>
+      <p class="section-intro">Each skill is practised at every stage. Select one to see how the demands develop.</p>
+    </div>
+    <div class="skills-tabs reveal" id="skillTabs">
+      <button class="tab-btn active" onclick="switchSkill('purpose',this)">Purpose</button>
+      <button class="tab-btn" onclick="switchSkill('timing',this)">Timing</button>
+      <button class="tab-btn" onclick="switchSkill('openness',this)">Openness</button>
+      <button class="tab-btn" onclick="switchSkill('followup',this)">Follow-up</button>
+      <button class="tab-btn" onclick="switchSkill('sitting',this)">Sitting with it</button>
+      <button class="tab-btn" onclick="switchSkill('challenge',this)">Challenge</button>
+      <button class="tab-btn" onclick="switchSkill('listening',this)">Listening to answer</button>
+      <button class="tab-btn" onclick="switchSkill('selfq',this)">Self-questioning</button>
+    </div>
+    <div id="skillPanels" class="reveal"></div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ── QUESTION BUILDER ── -->
+<section id="builder" style="background:rgba(255,255,255,0.012)">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Question Builder</div>
+      <h2 class="section-title">Build a question</h2>
+      <p class="section-intro">Choose a purpose and a type. The builder generates a question frame you can adapt to any topic.</p>
+    </div>
+    <div class="builder-grid reveal">
+      <div class="builder-panel">
+        <div class="builder-label">What is your purpose?</div>
+        <div class="builder-options" id="purposeOptions"></div>
+      </div>
+      <div class="builder-panel">
+        <div class="builder-label">What type of question?</div>
+        <div class="builder-options" id="typeOptions"></div>
+      </div>
+      <div class="builder-output">
+        <div class="builder-result">
+          <div class="builder-result-label">Your question frame</div>
+          <div class="builder-result-text" id="builderResult">Select a purpose and a type above to generate a question frame.</div>
+          <div class="builder-result-note" id="builderNote"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ── CHECKLIST ── -->
+<section id="checklist">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Self-Assessment</div>
+      <h2 class="section-title">After a discussion</h2>
+      <p class="section-intro" id="clSub">Use this after a discussion, a debate, or a class. Reflect on the questions you asked — and the ones you didn't.</p>
+    </div>
+    <div class="checklist-grid reveal" id="checklistGrid"></div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ── RUBRIC ── -->
+<section id="rubric" style="background:rgba(255,255,255,0.01)">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Assessment</div>
+      <h2 class="section-title">Questioning rubric</h2>
+      <p class="section-intro">Use to assess questioning quality in a discussion, debate, or seminar. Select your stage.</p>
+    </div>
+    <div class="rubric-select reveal">
+      <button class="rubric-btn" onclick="selectRubric('s1',this)">Stage 1</button>
+      <button class="rubric-btn active" onclick="selectRubric('s3',this)">Stage 3</button>
+      <button class="rubric-btn" onclick="selectRubric('s5',this)">Stage 5</button>
+    </div>
+    <div class="rubric-overflow reveal">
+      <table class="rubric-table">
+        <thead><tr><th>Criterion</th><th>Beginning</th><th>Developing</th><th>Proficient</th><th>Excellent</th></tr></thead>
+        <tbody id="rubricBody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ── PHRASES ── -->
+<section id="phrases">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Language</div>
+      <h2 class="section-title">Useful phrases</h2>
+      <p class="section-intro" id="phraseSub">Phrases for asking, probing, and following up. Tap any phrase to copy it.</p>
+    </div>
+    <div class="phrases-grid reveal" id="phrasesGrid"></div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ── PRACTICE ── -->
+<section id="practice">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Practice</div>
+      <h2 class="section-title">Activities &amp; timer</h2>
+      <p class="section-intro">Questioning improves by questioning. Use the timer with any activity.</p>
+    </div>
+    <div class="timer-layout reveal">
+      <div>
+        <div class="section-label" style="margin-bottom:0.75rem">Timer</div>
+        <div class="timer-panel">
+          <svg class="arc-svg" width="100" height="100" viewBox="0 0 100 100">
+            <circle class="arc-bg" cx="50" cy="50" r="44"/>
+            <circle class="arc-prog" id="arcProg" cx="50" cy="50" r="44" stroke-dasharray="276.46" stroke-dashoffset="0"/>
+          </svg>
+          <div class="timer-display" id="timerDisp">02:00</div>
+          <div class="timer-label-el" id="timerLbl">Ready</div>
+          <div class="timer-presets">
+            <button class="t-preset" onclick="setTimer(60,this)">1 min</button>
+            <button class="t-preset sel" onclick="setTimer(120,this)">2 min</button>
+            <button class="t-preset" onclick="setTimer(180,this)">3 min</button>
+            <button class="t-preset" onclick="setTimer(300,this)">5 min</button>
+            <button class="t-preset" onclick="setTimer(480,this)">8 min</button>
+          </div>
+          <div class="timer-btns">
+            <button class="t-btn t-start" id="timerStartBtn" onclick="timerToggle()">Start</button>
+            <button class="t-btn t-reset" onclick="timerReset()">Reset</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label" style="margin-bottom:0.75rem">Activities</div>
+        <div class="activities-grid" id="activitiesGrid"></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-brand">How to Ask Better Questions</div>
+    <p>Ask with purpose, precision, and curiosity · DSP English Hub · One framework, five reading levels</p>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div id="modalInner"></div>
+  </div>
+</div>
+<div class="toast" id="toast">Copied</div>
+
+<script>
+// ═══════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════
+
+const HERO_DATA = {
+  1: { eyebrow:'Stage 1 · Curious Asker · Grades 1–4', sub:'Ask when you don\'t understand. Ask when you want to know more.', quote:'Ask when you don\'t understand. Ask when you want to know more. Asking is not a sign of weakness — it is a sign that you are paying attention.' },
+  2: { eyebrow:'Stage 2 · Exploring Asker · Grades 5–7', sub:'Go beyond yes and no. Ask questions that open things up.', quote:'A closed question gets you an answer. An open question gets you a conversation. Learn to tell the difference — and to choose deliberately.' },
+  3: { eyebrow:'Stage 3 · Probing Asker · Grades 8–9', sub:'Challenge assumptions. Push past the first answer. Stay with the question.', quote:'The best questions don\'t arrive immediately. They come from listening carefully to the answer before them — and noticing what it hasn\'t said.' },
+  4: { eyebrow:'Stage 4 · Analytical Asker · Grades 10–12', sub:'Use questions to build an argument, expose a weakness, or change the direction of a discussion.', quote:'A question that exposes a faulty premise is more powerful than an argument that refutes a conclusion. Learn to find the premise.' },
+  5: { eyebrow:'Stage 5 · Intellectual Leader · Graduation+', sub:'Questions as intellectual leadership. Knowing when not to answer is as important as knowing how to ask.', quote:'The master questioner doesn\'t ask to find out. They ask to think — and to help others think alongside them.' }
+};
+
+const FRAMEWORK = [
+  { sClass:'s1c', num:'Stage 01', badge:'Primary · Grades 1–4', name:'Curious Asker', meta:'Ages 6–10',
+    tags:['Asking for help','What and why','Genuine curiosity','Classroom questions'],
+    descs:{ 1:'Ask when you don\'t know. Ask when you\'re confused. Ask when you want to find out more. That\'s enough.', 2:'This is where it begins — the habit of asking rather than staying silent. Every expert questioner started here.', 3:'Stage 1 asking is the foundation. The courage to ask at all is the first and most important skill.', 4:'The willingness to ask — even when you fear the question reveals ignorance — is a Stage 1 habit that Stage 4 still requires.', 5:'Stage 1 curiosity is what Stage 5 mastery protects. The most sophisticated questioners are still asking because they genuinely want to know.' },
+    focus:{ 1:'Speak up when you don\'t understand. Ask "why" when you want to know more.', 2:'Building the habit of asking. Not staying silent when confused.', 3:'Courage, curiosity, and the instinct to ask rather than assume.', 4:'The foundational questioning instinct that all later sophistication rests on.', 5:'Genuine curiosity — the origin of every great question at every level.' },
+    success:{ 1:'You asked a question today that you were afraid to ask.', 2:'You asked a question that moved a conversation forward.', 3:'Your questions are opening things up rather than closing them down.', 4:'Your questions are doing argumentative work.', 5:'Your questions are changing how a room thinks.' },
+    challenge:{ 1:'Ask one question today that you were embarrassed to ask. Notice what happens.', 2:'Ask three questions in a lesson. At least one must begin with "why".', 3:'Ask a question that you don\'t already know the answer to. Stay with the uncertainty.', 4:'Ask a question that challenges a premise rather than a conclusion.', 5:'Ask a question in a discussion that changes its direction entirely — without stating a position.' }
+  },
+  { sClass:'s2c', num:'Stage 02', badge:'Lower Secondary · Grades 5–7', name:'Exploring Asker', meta:'Ages 10–13',
+    tags:['Open questions','Follow-up','What if','Asking to understand'],
+    descs:{ 1:'At Stage 2, we learn the difference between questions that close things down and questions that open them up.', 2:'Open questions invite exploration. Closed questions confirm what you already think. Learning the difference changes everything.', 3:'Stage 2 is where questioners first develop intentionality — asking a particular kind of question for a particular reason.', 4:'The open/closed distinction established at Stage 2 underpins the analytical questioning that Stage 4 demands.', 5:'Stage 2 intentionality — choosing the right kind of question for the moment — is what Stage 5 automatises.' },
+    focus:{ 1:'Questions that begin with why, how, and what if — not just what and when.', 2:'Moving from closed to open questions. Following up on answers.', 3:'Intentionality: choosing the right question type for the right moment.', 4:'The foundations of analytical questioning.', 5:'What automatised question-type selection looks like.' },
+    success:{ 1:'Your questions get longer answers than yes or no.', 2:'You follow up on the first answer with a second question.', 3:'You choose question types deliberately based on what you want to find out.', 4:'Your question type choices are consistently purposeful.', 5:'Question type selection is instinctive and invisible.' },
+    challenge:{ 1:'Ask a "what if" question about something you\'re studying. Write down the answer.', 2:'After someone answers your question, ask a follow-up. Don\'t let the conversation stop at the first answer.', 3:'Ask the same question in three different ways — open, closed, hypothetical. Notice what each one produces.', 4:'Identify the question type you use least often. Use it three times in one discussion.', 5:'Design a sequence of five questions that takes a discussion from a simple observation to a complex insight.' }
+  },
+  { sClass:'s3c', num:'Stage 03', badge:'Middle Secondary · Grades 8–9', name:'Probing Asker', meta:'Ages 13–15',
+    tags:['Probing assumptions','Devil\'s advocate','Clarifying','Staying with a question'],
+    descs:{ 1:'Probing questions go beneath the surface. They don\'t accept the first answer — they ask what\'s underneath it.', 2:'A probing question doesn\'t attack an answer — it takes it seriously enough to examine it.', 3:'Ask questions that challenge what\'s being assumed, not just what\'s being said. The most important things are often unsaid.', 4:'Stage 3 probing is the bridge to Stage 4 analytical precision. The habit of examining premises is foundational.', 5:'Probing questions, at Stage 5, become the instrument of intellectual leadership — shaping a discussion by targeting what others have left unexamined.' },
+    focus:{ 1:'Asking "what do you mean by that?" and "how do you know?"', 2:'Going beneath the surface of an answer. Noticing what\'s assumed.', 3:'Challenging assumptions without attacking positions. Exposing unstated premises.', 4:'Targeting premises, not conclusions. Asking the question behind the question.', 5:'Using probing questions to lead rather than to follow.' },
+    success:{ 1:'You asked a question that made someone think harder about something they said.', 2:'Your questions expose what\'s being assumed, not just what\'s being said.', 3:'The person you\'re questioning revises their position in response to your question — not your argument.', 4:'Your probing questions consistently find the load-bearing assumption in an argument.', 5:'A well-placed probing question restructures a discussion without you having stated a single position.' },
+    challenge:{ 1:'"What do you mean by that?" — ask it once in every discussion this week.', 2:'Find the assumption in someone\'s argument. Ask a question that exposes it without stating it directly.', 3:'Listen to a complete argument before asking anything. Then ask one question that targets its weakest premise.', 4:'Ask a sequence of probing questions that leads someone to contradict themselves — gently, without them noticing you planned it.', 5:'Moderate a discussion using only probing questions. No statements. Watch where it goes.' }
+  },
+  { sClass:'s4c', num:'Stage 04', badge:'Upper Secondary · Grades 10–12', name:'Analytical Asker', meta:'Ages 15–18',
+    tags:['Argumentative questions','Premise exposure','Socratic method','Strategic questioning'],
+    descs:{ 1:'Analytical questions use questioning as a form of argument — not to find out, but to test, to expose, and to advance an intellectual position.', 2:'At Stage 4, questions do the work that arguments usually do — but more elegantly.', 3:'A well-placed analytical question can dismantle an argument more effectively than a counter-argument.', 4:'Questions that expose faulty premises, demand evidence, or surface unstated values — these are the tools of analytical questioning.', 5:'Stage 4 analytical questioning is the deliberate version of what Stage 5 makes instinctive.' },
+    focus:{ 1:'Using questions to test claims, expose weaknesses, and advance a position.', 2:'Questions that do argumentative work. Socratic method in practice.', 3:'Precision in targeting. Knowing which question will do the most work with the least words.', 4:'Strategic deployment. Timing. The question behind the question behind the question.', 5:'The point at which analytical questioning becomes automatic.' },
+    success:{ 1:'Your question changes someone\'s argument, not just their answer.', 2:'Your questions consistently advance your position without stating it.', 3:'You can identify in advance which question will do the most work in a given discussion.', 4:'Your questioning has a strategy that others can only see in retrospect.', 5:'Others model their questioning on yours without being able to articulate why.' },
+    challenge:{ 1:'"What evidence would change your mind?" — ask it once in every debate this week.', 2:'In a class discussion, advance your position entirely through questions. No statements.', 3:'Prepare five questions for a text or argument before class. Rank them by how much work each one does.', 4:'Design a Socratic dialogue: a sequence of questions that leads an interlocutor from a stated position to its contradiction.', 5:'Lead a 15-minute Socratic seminar using only questions. The group should reach a more complex position than where it started.' }
+  },
+  { sClass:'s5c', num:'Stage 05', badge:'Graduation · Beyond', name:'Intellectual Leader', meta:'Age 18+',
+    tags:['Questions as leadership','Knowing when not to answer','Shaping inquiry','Sitting with complexity'],
+    descs:{ 1:'One day, a single question from you will change how an entire conversation moves. That is the long-term goal.', 2:'This is the destination — where questions become a form of thinking, not just a way of finding out.', 3:'All five stages of questioning are now available automatically. The questioner adapts without deliberation.', 4:'The deliberate questioning of Stage 4 has become the instinctive questioning of Stage 5.', 5:'Questions and thinking are no longer separate. The intellectual leader questions as naturally as they breathe — with precision, timing, and genuine curiosity intact.' },
+    focus:{ 1:'This is the goal. Every question you practise now is building towards this.', 2:'Every question type you practise now becomes automatic at this stage.', 3:'Automatic selection. Invisible strategy. Thinking through questions, not about them.', 4:'The gap between Stage 4 and Stage 5 is not knowledge — it is speed of access and invisibility of technique.', 5:'Integration: all eight questioning disciplines operating simultaneously, automatically, in service of genuine inquiry.' },
+    success:{ 1:'A question you asked today made someone else think about something differently.', 2:'You no longer ask questions just to fill silence — every question you ask has a purpose.', 3:'Others in a discussion orient their thinking around your questions without realising it.', 4:'Your questions shape inquiry rather than respond to it.', 5:'A room thinks differently after a discussion you led — and you never stated a single position.' },
+    challenge:{ 1:'Write down the best question you asked this week. Why was it good?', 2:'Identify the question type you\'re most comfortable with. Deliberately use the type you\'re least comfortable with.', 3:'Before your next seminar, prepare one question you think will shift the discussion. Evaluate afterwards whether it did.', 4:'Design and run a Socratic inquiry on a topic of genuine complexity. Reflect on which of your questions did the most work.', 5:'Lead a discussion on a question you don\'t have an answer to. Sit with the uncertainty publicly. Notice what it produces.' }
+  }
+];
+
+const QUESTION_TYPES = [
+  { qc:'var(--accent1)', num:'Type 01', name:'Clarifying', desc:'Asks the speaker to explain more precisely what they mean. Targets vague language, undefined terms, or ambiguous claims.', purpose:'To ensure you\'ve understood correctly before responding.', examples:['What exactly do you mean by…?','Could you give an example of…?','When you say… do you mean… or…?'], stage:'All stages — begin here' },
+  { qc:'var(--accent2)', num:'Type 02', name:'Probing', desc:'Asks what lies beneath the surface of an answer. Targets assumptions, unstated premises, and the reasoning behind a claim.', purpose:'To examine what is being assumed, not just what is being said.', examples:['What are you assuming when you say that?','How did you arrive at that conclusion?','What would have to be true for that to be right?'], stage:'Stage 2 onward' },
+  { qc:'var(--accent3)', num:'Type 03', name:'Hypothetical', desc:'Proposes an imagined scenario to test a claim or explore its implications. Moves thinking from the actual to the possible.', purpose:'To test whether a position holds under different conditions.', examples:['What if the opposite were true?','Imagine a world where… — would your argument still hold?','Under what circumstances might you change your view?'], stage:'Stage 2 onward' },
+  { qc:'var(--accent4)', num:'Type 04', name:'Redirecting', desc:'Shifts the focus of a discussion to a different aspect, person, or angle. Used to broaden, deepen, or rescue a conversation.', purpose:'To move a discussion forward when it has stalled or narrowed.', examples:['Has anyone considered this from a different angle?','What would someone who disagreed with this say?','Before we move on — has that question been fully answered?'], stage:'Stage 3 onward' },
+  { qc:'var(--accent5)', num:'Type 05', name:'Synthesis', desc:'Draws connections between ideas, positions, or contributions. Asks how different threads relate to each other.', purpose:'To build understanding by connecting what has been said.', examples:['How does what you\'ve said connect to what was said earlier?','Is there a tension between those two positions, or are they compatible?','What do both arguments have in common?'], stage:'Stage 3 onward' },
+  { qc:'var(--accent1)', num:'Type 06', name:'Evaluative', desc:'Asks for a judgement — about quality, validity, importance, or value. Requires the speaker to take a position.', purpose:'To push beyond description into assessment and argument.', examples:['Which of those arguments do you find most convincing, and why?','Is that evidence strong enough to support that conclusion?','What is the most important thing that\'s been said so far?'], stage:'Stage 4 onward' },
+];
+
+const SKILLS = {
+  purpose:{ label:'Purpose', icon:'purpose', cards:[
+    { title:'Why are you asking?', bodies:['Ask when you don\'t understand something.','Know whether you\'re asking to find out, to check, or to get help.','Before asking, ask yourself: what do I actually want to know?','Every question should have a purpose. Know yours before you open your mouth.','At Stage 5, purpose is automatic — the right question arrives because the right question is needed.'] },
+    { title:'Questions that do work', bodies:['A question is not just a way to find out. It is a way to move a conversation.','The best questions don\'t just get answers — they change something.','A well-placed question can advance your argument more effectively than a statement.','Questions that expose assumptions do more work than questions that request information.','The master questioner chooses a question because of what it will do, not just what it will find out.'] },
+    { title:'Knowing why you\'re asking', bodies:['There are many reasons to ask. Curiosity, confusion, challenge, strategy.','Distinguish between asking to understand and asking to challenge — and know which you\'re doing.','In academic contexts, asking to challenge is a form of argument. Know when that\'s appropriate.','Purpose controls everything: the type of question, the timing, the follow-up.','When purpose is automatic, questioning becomes thinking. That is the goal.'] }
+  ]},
+  timing:{ label:'Timing', icon:'timing', cards:[
+    { title:'When to ask', bodies:['Ask as soon as you feel confused — don\'t let confusion build up.','Wait until the other person has finished speaking before asking.','In class, there are moments that invite questions. Find them.','The best time to ask a probing question is after the speaker has made their strongest point.','Timing is a rhetorical skill. The same question asked at different moments produces entirely different results.'] },
+    { title:'When not to ask', bodies:['Not every moment is a good moment. Read the room.','Don\'t ask a question if the answer is about to come.','In a debate, don\'t ask a question you\'re not prepared to hear the answer to.','Some questions are better held — asked later, in private, or not at all.','At Stage 5, knowing when not to ask is as important as knowing how to ask.'] },
+    { title:'Sequencing', bodies:['Start with simpler questions. Build to harder ones.','Don\'t ask everything at once. One question at a time.','A sequence of questions can take a conversation much further than a single question.','Design sequences deliberately: each question should open the door for the next.','The Socratic method is entirely about question sequencing. Every question is a step.'] }
+  ]},
+  openness:{ label:'Openness', icon:'open', cards:[
+    { title:'Open vs closed', bodies:['A closed question has one right answer: "Is it Monday?" Open questions have many: "What happened on Monday?"','Ask open questions when you want to explore. Closed questions when you want to confirm.','Most questions in class should be open. Most questions in a quiz should be closed.','Open questions invite thinking. Closed questions test whether thinking has already happened.','At mastery level, you choose open or closed based on precise strategic calculation.'] },
+    { title:'Opening things up', bodies:['If a conversation is going nowhere, an open question can rescue it.','Replace "did you like it?" with "what stayed with you about it?"','Replace "is that fair?" with "what would fairness look like here?"','Open questions that target values and assumptions do more work than open questions that invite description.','The most powerful open question is often the one that reveals the question the group was really trying to answer.'] },
+    { title:'Questions that close', bodies:['Some questions look open but are actually closed: "Don\'t you think that…?" is not a real question.','Leading questions suggest the answer. They are rarely useful in genuine inquiry.','Rhetorical questions make statements. They can be powerful — but they are not real questions.','Know the difference between a question that invites and a question that constrains.','At Stage 5, you use rhetorical questions and leading questions deliberately and sparingly.'] }
+  ]},
+  followup:{ label:'Follow-up', icon:'followup', cards:[
+    { title:'The second question', bodies:['Don\'t let the first answer be the last word. Ask a follow-up.','Follow-up questions show that you were listening.','The simplest follow-up: "Can you say more about that?"','A good follow-up picks up exactly where the answer left off — not where you planned to go next.','The most powerful follow-ups are not prepared in advance. They emerge from listening.'] },
+    { title:'Building on answers', bodies:['Use the answer to build the next question.','Quote the answer back: "You said X — what did you mean by X specifically?"','Follow the most interesting thread, not the most obvious one.','In academic discussion, follow-up sequences reveal the structure of an argument more effectively than single questions.','At Stage 5, follow-up questioning is the primary instrument of Socratic dialogue.'] },
+    { title:'Knowing when to stop', bodies:['Don\'t follow up endlessly. Read the room.','Sometimes the best follow-up is silence — let the answer breathe.','Know when a line of questioning has given what it can give.','In MUN and formal debate, follow-up is constrained by rules. Work within them strategically.','The master questioner knows when a question has been fully answered — and when it only appears to have been.'] }
+  ]},
+  sitting:{ label:'Sitting with it', icon:'sit', cards:[
+    { title:'Not rushing to answer', bodies:['It\'s OK not to know the answer to your own question.','Ask the question and wait. Don\'t fill the silence immediately.','A question that sits for a moment often gets a better answer.','Resist the urge to answer your own question — it defeats the purpose of asking.','At Stage 5, a question left open is a form of intellectual generosity.'] },
+    { title:'Living with uncertainty', bodies:['Not every question has an answer. Some questions are better than their answers.','Get comfortable not knowing. Curiosity lives in the space between question and answer.','Some of the most important questions in a discussion are the ones that remain unresolved.','Academic inquiry often ends with a better question, not a final answer. That is success.','The best questions outlast their discussions — they stay with you and continue working.'] },
+    { title:'The question behind the question', bodies:['Every answer contains a hidden question. Find it.','Ask yourself: what is the real question here?','In MUN, the question on the floor is rarely the real question. Find the one underneath it.','The question behind the question is usually more interesting than the surface question.','At Stage 5, finding the question behind the question is instinctive.'] }
+  ]},
+  challenge:{ label:'Challenge', icon:'challenge', cards:[
+    { title:'Questioning to challenge', bodies:['You don\'t have to agree. You can ask a question that pushes back.','Challenge through questions, not statements: "What evidence supports that?" not "That\'s wrong."','A challenging question is more powerful than a challenging statement — it makes the speaker do the work.','Target the weakest point in an argument, not the most obvious.','At Stage 5, a single well-placed challenging question does the work of a full counter-argument.'] },
+    { title:'Devil\'s advocate', bodies:['Sometimes it\'s useful to ask a question you know the answer to — to test someone else\'s thinking.','Playing devil\'s advocate means asking the hardest questions against a position, even if you agree with it.','Label it when you do: "Playing devil\'s advocate for a moment…"','In MUN, devil\'s advocate questioning is essential preparation — you need to know where your argument is weakest.','At Stage 5, devil\'s advocate questioning is a form of intellectual honesty, not a rhetorical trick.'] },
+    { title:'Without attacking', bodies:['A good challenging question doesn\'t make the other person feel stupid.','Target the argument, not the person.','Ask as if you\'re genuinely curious — because you should be.','The best challenges leave the other person thinking, not defending.','At Stage 5, the most devastating challenges are delivered with complete intellectual courtesy.'] }
+  ]},
+  listening:{ label:'Listening to answer', icon:'listen', cards:[
+    { title:'Listening before asking', bodies:['You can\'t ask a good follow-up if you weren\'t listening.','Don\'t prepare your next question while someone is answering. Listen.','The answer will tell you what to ask next — if you\'re paying attention.','Listening and questioning are one skill, not two.','At Stage 5, listening and questioning operate simultaneously.'] },
+    { title:'What the answer reveals', bodies:['Every answer tells you something about the question — whether it was understood, whether it landed, whether it needs restating.','Listen for what the answer doesn\'t say, not just what it does.','If an answer avoids your question, ask it again, differently.','In academic discussion, the most interesting information is often in what the answer assumes.','A master listener uses answers to generate better questions.'] },
+    { title:'Tracking a discussion', bodies:['Keep track of what\'s been said and what hasn\'t been resolved.','In a long discussion, it\'s easy to lose the original question. Don\'t.','The best questioners periodically bring a discussion back to its starting point.','In MUN, tracking is a survival skill — you need to know the state of the debate at all times.','At Stage 5, tracking happens automatically, freeing attention for higher-order questioning.'] }
+  ]},
+  selfq:{ label:'Self-questioning', icon:'selfq', cards:[
+    { title:'Questioning your own thinking', bodies:['Ask yourself: do I actually understand this, or do I just think I do?','Before stating an opinion, ask: what is my evidence for this?','Question your assumptions the same way you question others\'.','Self-questioning is the foundation of intellectual honesty.','At Stage 5, self-questioning is continuous and automatic — a background process that monitors your own thinking in real time.'] },
+    { title:'Before a discussion', bodies:['Before a discussion or debate, ask: what do I actually think about this, and why?','Identify the weakest point in your own position before anyone else does.','Ask: what question would most challenge my view? Then try to answer it.','Preparation through self-questioning produces more durable positions than preparation through research alone.','At Stage 5, pre-discussion self-questioning generates the questions that will shape the discussion.'] },
+    { title:'After a discussion', bodies:['Ask: did I change my mind about anything? Why or why not?','Identify the question that most challenged your thinking today.','Ask: what should I have asked that I didn\'t?','Reflection through self-questioning is how positions develop over time.','At Stage 5, post-discussion self-questioning is the primary driver of intellectual growth.'] }
+  ]}
+};
+
+const CHECKLISTS = {
+  1:[
+    { title:'Did I ask?', sub:'After a lesson', items:['I asked at least one question today.','My question was genuine — I really wanted to know.','I waited for the answer instead of giving up.'] },
+    { title:'Was I curious?', sub:'Reflection', items:['I noticed something I didn\'t understand.','I asked about it instead of staying silent.','The question made something clearer.'] }
+  ],
+  2:[
+    { title:'Question quality', sub:'After a discussion', items:['I asked at least one open question.','I followed up on an answer with another question.','I asked a "why" or "how" question, not just a "what".','I listened to the full answer before asking my next question.'] },
+    { title:'After', sub:'Reflection', items:['One question I asked that worked well.','One question I wish I had asked.'] }
+  ],
+  3:[
+    { title:'Probing & challenge', sub:'After a discussion', items:['I asked a question that challenged an assumption.','I used a follow-up question to go deeper into an answer.','I asked a hypothetical at least once.','I challenged a position through a question, not a statement.'] },
+    { title:'Listening', sub:'Did I listen to answer?', items:['I listened to the complete answer before preparing my next question.','My follow-up connected directly to what was said.','I noticed something the answer didn\'t say.'] },
+    { title:'Sitting with it', sub:'Uncertainty', items:['I let a question sit without rushing to fill the silence.','I identified a question I don\'t have an answer to.','I stayed curious rather than defaulting to what I already think.'] },
+    { title:'After', sub:'Reflection', items:['The most useful question I asked today.','A question I should have asked but didn\'t.'] }
+  ],
+  4:[
+    { title:'Analytical questioning', sub:'Strategic assessment', items:['My questions did argumentative work, not just informational work.','I targeted a premise rather than a conclusion at least once.','I used question sequences deliberately.','I advanced my position through questions, not statements.'] },
+    { title:'Self-questioning', sub:'Before and after', items:['I identified the weakest point in my own position before the discussion.','I asked myself what evidence would change my mind.','After: I noted whether my position changed, and why or why not.','I identified the question that most challenged my thinking.'] },
+    { title:'Intellectual honesty', sub:'Standards', items:['I asked a question I didn\'t know the answer to.','I didn\'t ask questions I wasn\'t prepared to hear answered.','I was genuinely curious — not just performing curiosity.'] }
+  ],
+  5:[
+    { title:'Leadership through questioning', sub:'Mastery markers', items:['My questions shaped the direction of the discussion.','I used silence after a question deliberately.','I found the question behind the question at least once.','Others\' thinking shifted in response to my questions.'] },
+    { title:'Integration', sub:'Automaticity', items:['Question type selection felt instinctive, not deliberate.','I tracked the discussion without losing the original question.','My listening and questioning operated simultaneously.'] },
+    { title:'Reflection', sub:'The mastery loop', items:['I identified the one question that did the most work today.','I noted what was still deliberate rather than automatic.','I identified the question I should have asked but held back.'] }
+  ]
+};
+
+const RUBRICS = {
+  s1:[
+    ['Frequency','Asks no questions','Asks when prompted','Asks independently at least once','Asks multiple genuine questions independently'],
+    ['Relevance','Questions are off-topic','Questions are sometimes relevant','Questions are clearly relevant','Questions advance the lesson or discussion'],
+    ['Curiosity','No apparent curiosity','Some curiosity evident','Genuine curiosity apparent','Questions reveal authentic intellectual engagement'],
+  ],
+  s3:[
+    ['Question type','Uses only closed questions','Some open questions','Uses open, probing, and follow-up questions','Deploys multiple question types purposefully'],
+    ['Depth','Surface-level only','Occasionally probes beneath surface','Regularly challenges assumptions','Consistently targets premises and unstated claims'],
+    ['Follow-up','Does not follow up','Follows up occasionally','Follows up naturally and relevantly','Follow-ups build sequences that advance understanding'],
+    ['Timing','Questions interrupt or disrupt','Timing is generally appropriate','Questions land at well-chosen moments','Timing is precise and rhetorically effective'],
+    ['Listening','Does not listen to answers','Listens partially','Listens carefully; follow-ups reflect this','Listening and questioning are unified; follow-ups are generated by answers'],
+  ],
+  s5:[
+    ['Strategic use','No evident strategy','Some strategic intent','Questions advance a clear intellectual purpose','Question sequences are strategically designed and executed'],
+    ['Premise targeting','Does not identify premises','Occasionally targets premises','Regularly exposes faulty or unstated premises','Consistently finds the load-bearing assumption in any argument'],
+    ['Leadership','Does not shape discussion','Occasionally redirects discussion','Often shapes the direction of discussion','Questions determine where the discussion goes without appearing to direct it'],
+    ['Self-questioning','No evidence of self-questioning','Some evidence of intellectual reflection','Self-questioning evident in position development','Continuous self-questioning visible in quality and honesty of questions asked'],
+    ['Sitting with uncertainty','Rushes to answer or close down','Tolerates some uncertainty','Comfortable holding a question open','Uses open questions and silence as deliberate instruments'],
+    ['Overall impact','Discussion unchanged by questioning','Discussion slightly advanced','Discussion meaningfully advanced','Discussion reaches a place it could not have reached without this questioner'],
+  ]
+};
+
+const PHRASES = {
+  1:[
+    { title:'Asking for help', phrases:['"I don\'t understand — can you explain?"','"What does … mean?"','"Can you show me again?"','"Is this right?"'] },
+    { title:'Asking to know more', phrases:['"Why does that happen?"','"How does that work?"','"What happens next?"'] }
+  ],
+  2:[
+    { title:'Opening things up', phrases:['"What if…?"','"Why do you think…?"','"How did that happen?"','"Can you say more about that?"'] },
+    { title:'Following up', phrases:['"And then what?"','"What did you mean by…?"','"Can you give an example?"','"What made you think that?"'] },
+    { title:'Checking understanding', phrases:['"So are you saying that…?"','"Just to check — do you mean…?"','"Is that the same as…?"'] }
+  ],
+  3:[
+    { title:'Probing assumptions', phrases:['"What are you assuming when you say that?"','"How do you know that\'s true?"','"What would have to be true for that to be right?"','"Is that always the case, or only sometimes?"'] },
+    { title:'Hypothetical questions', phrases:['"What if the opposite were true?"','"Imagine a situation where… — would your argument still hold?"','"What would change your mind about this?"','"Under what circumstances might you think differently?"'] },
+    { title:'Challenging', phrases:['"What evidence supports that?"','"Has anyone considered the opposite view?"','"Is there a weaker version of that argument you\'d also defend?"','"What does your argument not explain?"'] },
+    { title:'Redirecting', phrases:['"Before we move on — has that question been answered?"','"What would someone who disagreed say here?"','"Are we answering the right question?"','"What are we assuming by framing it that way?"'] }
+  ],
+  4:[
+    { title:'Targeting premises', phrases:['"What is the premise of that argument?"','"What does your position depend on being true?"','"If we don\'t accept that premise, what follows?"','"Is that a claim or an assumption?"'] },
+    { title:'Advancing through questions', phrases:['"If you accept X, doesn\'t it follow that…?"','"What evidence would falsify that claim?"','"Is that the strongest version of your argument?"','"What are you not saying that you should be?"'] },
+    { title:'Synthesis', phrases:['"How does what you\'ve said connect to what was said earlier?"','"Is there a tension between those positions, or are they compatible?"','"What do both arguments assume that neither has questioned?"','"If both of you are right, what would that mean for the original question?"'] },
+    { title:'Evaluative', phrases:['"Which of those arguments do you find most convincing?"','"Is that evidence strong enough to carry that conclusion?"','"What is the most important thing that\'s been said so far — and why?"','"What hasn\'t been said that should have been?"'] }
+  ],
+  5:[
+    { title:'Intellectual leadership', phrases:['"What is the question underneath this question?"','"Are we asking the right question at all?"','"What would it mean to take that seriously?"','"What follows if we accept everything that\'s been said so far?"'] },
+    { title:'Sitting with it', phrases:['"I want to leave that open for a moment."','"I don\'t have an answer to that — do you?"','"That question might be more useful than any answer we could give it."','"Let\'s not resolve that too quickly."'] },
+    { title:'Closing a Socratic sequence', phrases:['"What have we actually established?"','"Where does that leave the original question?"','"What\'s the one question we still haven\'t answered?"','"Is our disagreement about facts, values, or definitions?"'] }
+  ]
+};
+
+const BUILDER_PURPOSES = [
+  { label:'Understand', desc:'I want to know what something means.' },
+  { label:'Explore', desc:'I want to open up a topic or idea.' },
+  { label:'Challenge', desc:'I want to test or probe a claim.' },
+  { label:'Advance', desc:'I want to move the argument forward.' },
+  { label:'Synthesise', desc:'I want to connect ideas together.' },
+];
+
+const BUILDER_TYPES = [
+  { label:'Clarifying', desc:'What exactly do you mean?' },
+  { label:'Probing', desc:'What are you assuming?' },
+  { label:'Hypothetical', desc:'What if things were different?' },
+  { label:'Redirecting', desc:'Are we asking the right thing?' },
+  { label:'Evaluative', desc:'Which is better, and why?' },
+];
+
+const BUILDER_FRAMES = {
+  'Understand-Clarifying': { q:'"When you say [X], do you mean [A] or [B]?"', note:'Replace [X] with the unclear term. Replace [A] and [B] with two possible interpretations. This forces precision without accusation.' },
+  'Understand-Probing': { q:'"What led you to think [X]?"', note:'Asks for the reasoning rather than just the claim. Useful when you suspect the thinking hasn\'t been made explicit.' },
+  'Understand-Hypothetical': { q:'"If [X] weren\'t true, would you still hold that view?"', note:'Tests whether the position is logically dependent on [X], or whether [X] is just supporting evidence.' },
+  'Understand-Redirecting': { q:'"Before we go further — are we all using [X] to mean the same thing?"', note:'Prevents a long discussion from being based on a shared misunderstanding.' },
+  'Understand-Evaluative': { q:'"Of the explanations we\'ve heard, which do you find most convincing?"', note:'Useful when multiple interpretations are on the table and a discussion needs to move forward.' },
+  'Explore-Clarifying': { q:'"What do you mean when you say [X]? Can you give an example?"', note:'The example often does more work than the definition. Push for concrete cases.' },
+  'Explore-Probing': { q:'"What assumptions are we making about [X]?"', note:'Groups and discussions often share assumptions without articulating them. This surfaces them.' },
+  'Explore-Hypothetical': { q:'"What would [X] look like if [condition were different]?"', note:'Hypotheticals are underused in exploration. They reveal the shape of an idea by changing its conditions.' },
+  'Explore-Redirecting': { q:'"Is there an angle on [X] we haven\'t considered?"', note:'Opens up a discussion that has narrowed too quickly. Use when you sense the group is missing something.' },
+  'Explore-Evaluative': { q:'"What\'s the most interesting thing about [X] that we haven\'t said yet?"', note:'Invites contribution from people who have been listening rather than speaking.' },
+  'Challenge-Clarifying': { q:'"What exactly are you claiming? Is it that [A], or that [B]?"', note:'Challenges often fail because they attack a position that was never actually stated. Clarify first.' },
+  'Challenge-Probing': { q:'"What does your argument depend on being true?"', note:'The most powerful challenge questions target the load-bearing premise, not the conclusion.' },
+  'Challenge-Hypothetical': { q:'"Under what circumstances would you abandon that position?"', note:'If there are no circumstances, the position is unfalsifiable — which is worth naming.' },
+  'Challenge-Redirecting': { q:'"Is that the strongest version of the argument? Or is there a version you\'d find harder to challenge?"', note:'Steelmanning — pushing someone to their best argument — is more intellectually honest than attacking their weakest one.' },
+  'Challenge-Evaluative': { q:'"What evidence would be sufficient to change your mind?"', note:'The single most useful challenging question in any discussion.' },
+  'Advance-Clarifying': { q:'"If we accept [X], what follows?"', note:'Moves from a conceded point to its implications. Keeps the discussion progressing rather than revisiting.' },
+  'Advance-Probing': { q:'"We\'ve established [X]. What does that tell us about [related question]?"', note:'Uses what has been agreed to open the next stage of the inquiry.' },
+  'Advance-Hypothetical': { q:'"Assuming [X] is true — what\'s the strongest argument against the conclusion we\'re moving towards?"', note:'Anticipates the counter-argument before it arrives. Advances by pre-emptively addressing objection.' },
+  'Advance-Redirecting': { q:'"We keep returning to [X]. Is [X] actually the question we need to answer, or is there a prior question?"', note:'Sometimes a discussion is stuck because it\'s answering the wrong question.' },
+  'Advance-Evaluative': { q:'"Of the positions we\'ve heard, which takes us furthest? And what does it still leave unresolved?"', note:'Evaluative questions can move a discussion forward by identifying which direction is most productive.' },
+  'Synthesise-Clarifying': { q:'"When [speaker A] says [X] and [speaker B] says [Y], are they disagreeing — or using the same word differently?"', note:'Many apparent disagreements dissolve when terms are clarified. Many agreements reveal deeper disagreements.' },
+  'Synthesise-Probing': { q:'"What do both those arguments assume that neither has questioned?"', note:'The shared assumption is often the most interesting and most invisible thing in a discussion.' },
+  'Synthesise-Hypothetical': { q:'"If both of those arguments are right, what would that mean for [broader question]?"', note:'Forces integration rather than selection. Sometimes both positions can be held simultaneously at a higher level.' },
+  'Synthesise-Redirecting': { q:'"Let\'s step back — what have we actually established so far, and where does that leave us?"', note:'Synthesis questions are most useful when a discussion has generated a lot of content that hasn\'t been integrated.' },
+  'Synthesise-Evaluative': { q:'"What\'s the most important insight from this discussion — and what\'s the most important question it leaves open?"', note:'The ideal closing question for a Socratic seminar or extended discussion.' },
+};
+
+const ACTIVITIES = {
+  1:[
+    { type:'Curiosity', title:'Question of the Day', body:'Choose one thing from today\'s lesson. Write down the most interesting question it raises for you.', tags:['5 min','Solo'], modal:'<ol><li>Think about what you learned today.</li><li>Find the most interesting thing — or the most confusing.</li><li>Write one question about it. Not a yes/no question. A real one.</li><li>If you can, ask it tomorrow.</li></ol><p><strong>Note:</strong> The best questions are the ones you actually want answered.</p>' },
+    { type:'Asking', title:'Three Questions', body:'In your next lesson, ask three questions. At least one must begin with "why".', tags:['Lesson long','Solo'], modal:'<ol><li>Set yourself a target before the lesson: three questions.</li><li>Ask them. Even if you feel embarrassed.</li><li>Afterwards, write down which question got the most interesting answer.</li></ol><p><strong>Note:</strong> Courage first. Quality second.</p>' }
+  ],
+  2:[
+    { type:'Open questions', title:'Open or Closed?', body:'Listen to the questions asked in a discussion. Note which are open and which are closed. Count them.', tags:['Discussion length','Solo observation'], modal:'<ol><li>During your next class discussion, keep a tally.</li><li>Mark each question as O (open) or C (closed).</li><li>Afterwards: what was the ratio? When did open questions produce better discussion?</li><li>Make a commitment about what you\'ll change in your own questioning.</li></ol><p><strong>Note:</strong> Most classroom questions are closed. The interesting ones are usually open.</p>' },
+    { type:'Follow-up', title:'Never the First Answer', body:'In a discussion, make a rule: you cannot accept the first answer to any question. Always ask a follow-up.', tags:['10 min','Pair or group'], modal:'<ol><li>Work with a partner or small group on any topic.</li><li>Rule: every answer must be followed by at least one more question before the conversation can move on.</li><li>The follow-up must connect directly to what was just said.</li><li>Debrief: how much further did you get than you usually do?</li></ol><p><strong>Note:</strong> The second answer is almost always more interesting than the first.</p>' }
+  ],
+  3:[
+    { type:'Probing', title:'The Assumption Hunt', body:'Listen to an argument. Find one assumption it makes that nobody has questioned. Ask a question that surfaces it.', tags:['10 min','Group'], modal:'<ol><li>Listen to a classmate\'s argument on any topic without interrupting.</li><li>Identify the single most important assumption the argument makes — the one it depends on most.</li><li>Ask one question that surfaces that assumption, without stating it directly.</li><li>Debrief: did the questioner change the argument? Did the speaker notice the assumption?</li></ol><p><strong>Note:</strong> The best challenging questions make the speaker do the work of finding the problem.</p>' },
+    { type:'Sitting with it', title:'The Open Question', body:'Pose a question to your group. No one is allowed to answer it for two minutes. Then discuss.', tags:['5–10 min','Group'], modal:'<ol><li>Choose a genuine question — one you don\'t know the answer to.</li><li>State it to the group. Then wait two minutes in silence before discussion begins.</li><li>Note what happens during the silence. Note the quality of answers that follow.</li></ol><p><strong>Note:</strong> Silence is not empty. It is thinking time. Most discussions don\'t give it.</p>' },
+    { type:'Challenge', title:'Questions Only', body:'Hold a discussion where no one is allowed to make a statement. Everything must be phrased as a question.', tags:['5 min','Group'], modal:'<ol><li>Choose a topic with a clear position (e.g. "Technology is making us less intelligent").</li><li>Rule: you may only speak in questions. No statements, no opinions, no assertions.</li><li>Run for 5 minutes.</li><li>Debrief: what surprised you? What did the questions reveal that statements would not have?</li></ol><p><strong>Note:</strong> This is harder than it sounds. And more illuminating than almost any other exercise.</p>' }
+  ],
+  4:[
+    { type:'Strategic questioning', title:'The Socratic Ladder', body:'Design a sequence of five questions that takes a discussion from a simple observation to a complex insight.', tags:['Preparation + 15 min','Solo + group'], modal:'<ol><li>Choose a topic from your current study.</li><li>Write a sequence of five questions. Each must build on the answer to the one before it.</li><li>Start simple. End at genuine complexity.</li><li>Run the sequence with a group. Reflect: did the discussion reach where you designed it to go?</li></ol><p><strong>Note:</strong> The Socratic method is a question sequence. This exercise makes that visible.</p>' },
+    { type:'Premise targeting', title:'Find the Premise', body:'Listen to an argument. Identify its load-bearing premise. Ask one question that tests it.', tags:['10 min','Pair'], modal:'<ol><li>Your partner presents a 2-minute argument on any topic.</li><li>Your task: identify the single premise the argument most depends on.</li><li>Ask one question that tests that premise — without stating what you\'ve identified.</li><li>Debrief: did the question change the argument?</li></ol><p><strong>Note:</strong> A question that targets the right premise does more work than a counter-argument that targets the conclusion.</p>' },
+    { type:'Self-questioning', title:'Pre-Discussion Audit', body:'Before a seminar or debate, spend 10 minutes questioning your own position. Find its weakest point.', tags:['10 min','Solo'], modal:'<ol><li>State your position on the topic in one sentence.</li><li>Ask: what does this depend on being true? List the premises.</li><li>Ask: which of those premises is weakest?</li><li>Ask: what question would most challenge my position? Write it down.</li><li>Enter the discussion with that question in mind.</li></ol><p><strong>Note:</strong> The questioner who has already challenged their own position is harder to destabilise than one who hasn\'t.</p>' }
+  ],
+  5:[
+    { type:'Leadership', title:'The Silent Moderator', body:'Lead a discussion using only questions. No statements, no summaries, no opinions. Shape where it goes.', tags:['15 min','Group'], modal:'<ol><li>Take the role of moderator in a group discussion on any contested topic.</li><li>Rule: you may only speak in questions.</li><li>Your goal: advance the discussion, surface disagreement, prevent repetition — invisibly.</li><li>After 15 minutes: the group identifies which questions most shaped the direction. Discuss why.</li></ol><p><strong>Note:</strong> Leadership through questioning is invisible when it works. That is the standard.</p>' },
+    { type:'Inquiry design', title:'The Question Behind the Question', body:'Take a question currently unresolved in your field of study. Find the deeper question it is really asking.', tags:['20 min','Solo or pair'], modal:'<ol><li>State the surface question: the one that is currently being debated.</li><li>Ask: what is the question this question is really trying to answer?</li><li>Ask that question. Is it more interesting than the surface question?</li><li>Ask: what would change if we answered the deeper question first?</li></ol><p><strong>Note:</strong> The history of intellectual progress is largely a history of finding better questions. This exercise is that — in miniature.</p>' },
+    { type:'Mastery', title:'The Unanswered Question', body:'End a discussion or seminar by identifying the one question that was most important and least resolved.', tags:['5 min','Group'], modal:'<ol><li>At the end of any discussion, pause before closing.</li><li>Ask the group: "What is the one question we most needed to answer, and didn\'t?"</li><li>Name it. Sit with it. Don\'t answer it.</li><li>Note it for next time.</li></ol><p><strong>Note:</strong> The best measure of a discussion\'s quality is not what it resolved — it is the quality of the question it left open.</p>' }
+  ]
+};
+
+const ICONS = {
+  purpose:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
+  timing:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><polyline points="12,7 12,12 15,15"/></svg>`,
+  open:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`,
+  followup:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9,14 4,9 9,4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>`,
+  sit:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4Z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>`,
+  challenge:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9.09,9a3,3,0,0,1,5.83,1c0,2-3,3-3,3"/><line x1="12" y1="17" x2="12.01" y2="17"/><circle cx="12" cy="12" r="10"/></svg>`,
+  listen:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>`,
+  selfq:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M12 14c-5 0-8 2-8 4v2h16v-2c0-2-3-4-8-4z"/></svg>`
+};
+
+const SKILL_KEYS = ['purpose','timing','openness','followup','sitting','challenge','listening','selfq'];
+const SKILL_COLOURS = ['accent1','accent2','accent3','accent4','accent5','accent1','accent2','accent3'];
+
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+let currentStage = 1, currentSkill = 'purpose', currentRubric = 's3';
+const checkState = {};
+let selectedPurpose = null, selectedType = null;
+
+// ═══════════════════════════════════════════
+// STAGE
+// ═══════════════════════════════════════════
+function setStage(n) {
+  currentStage = n;
+  document.querySelectorAll('.stage-btn').forEach(b => b.classList.toggle('active', +b.dataset.s === n));
+  const d = HERO_DATA[n];
+  document.getElementById('heroEyebrow').textContent = d.eyebrow;
+  document.getElementById('heroSub').textContent = d.sub;
+  document.getElementById('principleQuote').textContent = d.quote;
+  renderFramework();
+  renderSkillPanel(currentSkill);
+  renderChecklists();
+  renderPhrases();
+  renderActivities();
+}
+
+// ═══════════════════════════════════════════
+// FRAMEWORK
+// ═══════════════════════════════════════════
+function renderFramework() {
+  document.getElementById('stageCardList').innerHTML = FRAMEWORK.map((f, i) => `
+    <div class="stage-item">
+      <div class="stage-card ${f.sClass}" id="sc${i}" onclick="toggleCard(${i})">
+        <div class="stage-header">
+          <span class="stage-num">${f.num}</span>
+          <span class="stage-badge">${f.badge}</span>
+        </div>
+        <div class="stage-title-el">${f.name}</div>
+        <div class="stage-meta">${f.meta}</div>
+        <div class="stage-desc">${f.descs[currentStage]}</div>
+        <div class="stage-tags">${f.tags.map(t=>`<span class="skill-tag">${t}</span>`).join('')}</div>
+        <div class="stage-expand">
+          <div class="expand-item"><h4>Focus</h4><p>${f.focus[currentStage]}</p></div>
+          <div class="expand-item"><h4>Success looks like</h4><p>${f.success[currentStage]}</p></div>
+          <div class="expand-item"><h4>Challenge</h4><p>${f.challenge[currentStage]}</p></div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function toggleCard(i) {
+  const card = document.getElementById('sc' + i);
+  const node = document.getElementById('sn' + i);
+  const isActive = card.classList.contains('active');
+  card.classList.toggle('active', !isActive);
+  node && node.classList.toggle('lit', !isActive);
+}
+
+// ═══════════════════════════════════════════
+// QUESTION TYPES
+// ═══════════════════════════════════════════
+document.getElementById('qtypeGrid').innerHTML = QUESTION_TYPES.map(qt => `
+  <div class="qtype-card" style="--qc:${qt.qc}">
+    <div class="qtype-num">${qt.num}</div>
+    <div class="qtype-name">${qt.name}</div>
+    <div class="qtype-desc">${qt.desc}</div>
+    <div class="qtype-purpose">Purpose</div>
+    <div class="qtype-examples">${qt.examples.map(e=>`<div class="qtype-example">${e}</div>`).join('')}</div>
+    <div class="qtype-stage">Best from: ${qt.stage}</div>
+  </div>`).join('');
+
+// ═══════════════════════════════════════════
+// SKILLS
+// ═══════════════════════════════════════════
+function renderSkillPanel(key) {
+  currentSkill = key;
+  const data = SKILLS[key];
+  const si = currentStage - 1;
+  const colIdx = SKILL_KEYS.indexOf(key);
+  const colVar = `var(--${SKILL_COLOURS[colIdx]})`;
+  let html = `<div class="skill-card-grid">`;
+  data.cards.forEach(card => {
+    const dots = [1,2,3,4,5].map(d => `<div class="prog-dot${d<=currentStage?' on':''}"></div>`).join('');
+    html += `<div class="skill-card" style="--sc-card:${colVar}">
+      ${ICONS[data.icon]||''}
+      <div class="skill-card-stage" style="color:${colVar}">Stage ${currentStage} · ${data.label}</div>
+      <h3>${card.title}</h3>
+      <p>${card.bodies[si]}</p>
+      <div class="skill-progression">${dots}</div>
+    </div>`;
+  });
+  html += `</div>`;
+  const container = document.getElementById('skillPanels');
+  let existing = document.getElementById('sp-' + key);
+  if (!existing) { const div = document.createElement('div'); div.className='skill-panel'; div.id='sp-'+key; container.appendChild(div); existing=div; }
+  existing.innerHTML = html;
+  container.querySelectorAll('.skill-panel').forEach(p => p.classList.remove('active'));
+  existing.classList.add('active');
+}
+
+function switchSkill(key, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSkillPanel(key);
+}
+
+// ═══════════════════════════════════════════
+// BUILDER
+// ═══════════════════════════════════════════
+function renderBuilder() {
+  document.getElementById('purposeOptions').innerHTML = BUILDER_PURPOSES.map((p,i) => `
+    <div class="builder-option${selectedPurpose===p.label?' selected':''}" onclick="selectPurpose('${p.label}')">
+      <div class="bo-dot"></div>
+      <div><div class="bo-label">${p.label}</div><div class="bo-desc">${p.desc}</div></div>
+    </div>`).join('');
+  document.getElementById('typeOptions').innerHTML = BUILDER_TYPES.map((t,i) => `
+    <div class="builder-option${selectedType===t.label?' selected':''}" onclick="selectType('${t.label}')">
+      <div class="bo-dot"></div>
+      <div><div class="bo-label">${t.label}</div><div class="bo-desc">${t.desc}</div></div>
+    </div>`).join('');
+  updateBuilderResult();
+}
+
+function selectPurpose(p) { selectedPurpose = p; renderBuilder(); }
+function selectType(t) { selectedType = t; renderBuilder(); }
+
+function updateBuilderResult() {
+  const key = `${selectedPurpose}-${selectedType}`;
+  const frame = BUILDER_FRAMES[key];
+  const result = document.getElementById('builderResult');
+  const note = document.getElementById('builderNote');
+  if (frame) {
+    result.textContent = frame.q;
+    note.textContent = frame.note;
+  } else if (selectedPurpose && selectedType) {
+    result.textContent = 'Generating frame…';
+    note.textContent = '';
+  } else {
+    result.textContent = 'Select a purpose and a type above to generate a question frame.';
+    note.textContent = '';
+  }
+}
+
+renderBuilder();
+
+// ═══════════════════════════════════════════
+// CHECKLISTS
+// ═══════════════════════════════════════════
+function renderChecklists() {
+  const lists = CHECKLISTS[currentStage];
+  document.getElementById('checklistGrid').innerHTML = lists.map((cl, ci) => {
+    const total = cl.items.length;
+    const done = cl.items.filter((_,ii) => checkState[`${currentStage}-${ci}-${ii}`]).length;
+    const items = cl.items.map((item, ii) => {
+      const isDone = !!checkState[`${currentStage}-${ci}-${ii}`];
+      return `<div class="checklist-item${isDone?' checked':''}" onclick="toggleCheck(this,${currentStage},${ci},${ii})">
+        <div class="check-box">✓</div><div class="check-text">${item}</div>
+      </div>`;
+    }).join('');
+    return `<div class="checklist-card">
+      <h3>${cl.title}</h3><div class="checklist-subtitle">${cl.sub}</div>
+      ${items}
+      <div class="checklist-progress">
+        <div class="progress-bar"><div class="progress-fill" id="pf-${ci}" style="width:${Math.round((done/total)*100)}%"></div></div>
+        <div class="progress-label" id="pl-${ci}">${done} / ${total}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleCheck(el, stage, ci, ii) {
+  const key = `${stage}-${ci}-${ii}`;
+  checkState[key] = el.classList.toggle('checked');
+  const lists = CHECKLISTS[stage];
+  const total = lists[ci].items.length;
+  const done = lists[ci].items.filter((_,x) => checkState[`${stage}-${ci}-${x}`]).length;
+  const pf = document.getElementById('pf-'+ci), pl = document.getElementById('pl-'+ci);
+  if (pf) pf.style.width = Math.round((done/total)*100)+'%';
+  if (pl) pl.textContent = `${done} / ${total}`;
+}
+
+// ═══════════════════════════════════════════
+// RUBRIC
+// ═══════════════════════════════════════════
+function selectRubric(key, btn) {
+  document.querySelectorAll('.rubric-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('rubricBody').innerHTML = RUBRICS[key]
+    .map(r => `<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('');
+}
+
+// ═══════════════════════════════════════════
+// PHRASES
+// ═══════════════════════════════════════════
+function renderPhrases() {
+  document.getElementById('phrasesGrid').innerHTML = PHRASES[currentStage].map(g => `
+    <div class="phrase-group">
+      <h3>${g.title}</h3>
+      ${g.phrases.map(p=>`<div class="phrase-item" onclick="copyPhrase(this,'${p.replace(/'/g,"\\'")}')">
+        <div class="phrase-text">${p}</div><div class="phrase-copy">copy</div>
+      </div>`).join('')}
+    </div>`).join('');
+}
+
+function copyPhrase(el, text) {
+  const clean = text.replace(/^"|"$/g,'');
+  navigator.clipboard.writeText(clean).then(() => {
+    el.classList.add('copied'); el.querySelector('.phrase-copy').textContent='✓';
+    showToast('Copied');
+    setTimeout(()=>{ el.classList.remove('copied'); el.querySelector('.phrase-copy').textContent='copy'; }, 2000);
+  });
+}
+
+// ═══════════════════════════════════════════
+// ACTIVITIES
+// ═══════════════════════════════════════════
+function renderActivities() {
+  document.getElementById('activitiesGrid').innerHTML = ACTIVITIES[currentStage].map((a,i) => `
+    <div class="activity-card" onclick="openModal(${currentStage},${i})">
+      <div class="activity-type">${a.type}</div>
+      <h3>${a.title}</h3>
+      <p>${a.body}</p>
+      <div class="activity-meta">${a.tags.map(t=>`<span class="activity-tag">${t}</span>`).join('')}</div>
+    </div>`).join('');
+}
+
+function openModal(stage, idx) {
+  const a = ACTIVITIES[stage][idx];
+  document.getElementById('modalInner').innerHTML = `
+    <div class="modal-eyebrow">${a.type}</div>
+    <h2>${a.title}</h2>
+    <div class="modal-body">${a.modal}</div>`;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modalOverlay'))
+    document.getElementById('modalOverlay').classList.remove('open');
+}
+
+// ═══════════════════════════════════════════
+// TIMER
+// ═══════════════════════════════════════════
+let timerDuration=120, timerRemaining=120, timerInterval=null, timerRunning=false;
+const CIRCUM = 2*Math.PI*44;
+
+function setTimer(s, btn) {
+  if (timerRunning) return;
+  document.querySelectorAll('.t-preset').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  timerDuration=s; timerRemaining=s;
+  updateTimerDisplay(); updateArc(1);
+}
+function timerToggle() {
+  if (timerRunning) {
+    clearInterval(timerInterval); timerRunning=false;
+    document.getElementById('timerStartBtn').textContent='Resume';
+    document.getElementById('timerLbl').textContent='Paused';
+  } else {
+    if (timerRemaining<=0){ timerReset(); return; }
+    timerRunning=true;
+    document.getElementById('timerStartBtn').textContent='Pause';
+    document.getElementById('timerLbl').textContent='Running';
+    timerInterval=setInterval(()=>{
+      timerRemaining--;
+      updateTimerDisplay(); updateArc(timerRemaining/timerDuration);
+      if (timerRemaining<=0){ clearInterval(timerInterval); timerRunning=false; document.getElementById('timerStartBtn').textContent='Start'; document.getElementById('timerLbl').textContent='Done'; }
+    },1000);
+  }
+}
+function timerReset() {
+  clearInterval(timerInterval); timerRunning=false; timerRemaining=timerDuration;
+  updateTimerDisplay(); updateArc(1);
+  document.getElementById('timerStartBtn').textContent='Start';
+  document.getElementById('timerLbl').textContent='Ready';
+}
+function updateTimerDisplay() {
+  const m=Math.floor(timerRemaining/60), s=timerRemaining%60;
+  document.getElementById('timerDisp').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+function updateArc(ratio) { document.getElementById('arcProg').style.strokeDashoffset=CIRCUM*(1-ratio); }
+
+// ═══════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════
+function showToast(msg) {
+  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2000);
+}
+
+// ═══════════════════════════════════════════
+// CANVAS STARS
+// ═══════════════════════════════════════════
+(function(){
+  const c=document.getElementById('canvas-bg'),ctx=c.getContext('2d');let stars=[];
+  function resize(){ c.width=innerWidth;c.height=innerHeight;stars=Array.from({length:Math.floor(c.width*c.height/6000)},()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.1+0.1,a:Math.random(),sp:0.002+Math.random()*0.003,ph:Math.random()*Math.PI*2})); }
+  function draw(t){ ctx.clearRect(0,0,c.width,c.height);stars.forEach(s=>{ const a=s.a*(0.4+0.6*Math.sin(t*0.001*(s.sp*500)+s.ph));ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(200,210,230,${a})`;ctx.fill(); });requestAnimationFrame(draw); }
+  window.addEventListener('resize',resize);resize();requestAnimationFrame(draw);
+})();
+
+// ═══════════════════════════════════════════
+// REVEAL
+// ═══════════════════════════════════════════
+const ro=new IntersectionObserver(entries=>entries.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target);} }),{threshold:0.06});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+setStage(1);
+selectRubric('s3', document.querySelector('.rubric-btn.active'));
+updateTimerDisplay();
+updateArc(1);
+</script>
+</body>
+</html>
